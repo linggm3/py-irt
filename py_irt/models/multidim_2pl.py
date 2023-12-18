@@ -52,10 +52,16 @@ class Multidim2PL(IrtModel):
     def export(self):
         return {
             "ability": pyro.param("loc_ability").data.tolist(),
+            "scale_ability": pyro.param("scale_ability").data.tolist(),
             "diff": pyro.param("loc_diff").data.tolist(),
             "disc": pyro.param("loc_disc").data.tolist(),
+            "loc_mu_theta": pyro.param("loc_mu_theta").data.tolist(),
+            "scale_mu_theta": pyro.param("scale_mu_theta").data.tolist(),
+            "alpha_theta": pyro.param("alpha_theta").data.tolist(),
+            "beta_theta": pyro.param("beta_theta").data.tolist(),
         }
 
+    
     def get_model(self):
         return self.model_hierarchical
 
