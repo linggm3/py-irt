@@ -69,7 +69,7 @@ class Multidim2PL(IrtModel):
         return self.guide_hierarchical
 
     def model_hierarchical(self, subjects, items, obs):
-        with pyro.plate("mu_b_plate", self.dims):
+        with pyro.plate("mu_b_plate", 1):
             mu_b = pyro.sample(
                 "mu_b",
                 dist.Normal(
@@ -78,7 +78,7 @@ class Multidim2PL(IrtModel):
                 ),
             )
 
-        with pyro.plate("u_b_plate", self.dims):
+        with pyro.plate("u_b_plate", 1):
             u_b = pyro.sample(
                 "u_b",
                 dist.Gamma(
@@ -142,10 +142,10 @@ class Multidim2PL(IrtModel):
             pyro.sample("obs", dist.Bernoulli(logits=logits), obs=obs)
 
     def guide_hierarchical(self, subjects, items, obs):
-        loc_mu_b_param = pyro.param("loc_mu_b", torch.zeros(self.dims, device=self.device))
+        loc_mu_b_param = pyro.param("loc_mu_b", torch.zeros(1, device=self.device))
         scale_mu_b_param = pyro.param(
             "scale_mu_b",
-            1e2 * torch.ones(self.dims, device=self.device),
+            1e2 * torch.ones(1, device=self.device),
             constraint=constraints.positive,
         )
 
@@ -165,12 +165,12 @@ class Multidim2PL(IrtModel):
 
         alpha_b_param = pyro.param(
             "alpha_b",
-            torch.ones(self.dims, device=self.device),
+            torch.ones(1, device=self.device),
             constraint=constraints.positive,
         )
         beta_b_param = pyro.param(
             "beta_b",
-            torch.ones(self.dims, device=self.device),
+            torch.ones(1, device=self.device),
             constraint=constraints.positive,
         )
 
@@ -206,11 +206,11 @@ class Multidim2PL(IrtModel):
         )
 
         m_b_param = pyro.param(
-            "loc_diff", torch.zeros([self.num_items, self.dims], device=self.device)
+            "loc_diff", torch.zeros([self.num_items, 1], device=self.device)
         )
         s_b_param = pyro.param(
             "scale_diff",
-            torch.ones([self.num_items, self.dims], device=self.device),
+            torch.ones([self.num_items, 1], device=self.device),
             constraint=constraints.positive,
         )
 
@@ -224,10 +224,10 @@ class Multidim2PL(IrtModel):
         )
 
         # sample statements
-        with pyro.plate("mu_b_plate", self.dims):
+        with pyro.plate("mu_b_plate", 1):
             mu_b = pyro.sample("mu_b", dist.Normal(loc_mu_b_param, scale_mu_b_param))
 
-        with pyro.plate("u_b_plate", self.dims):
+        with pyro.plate("u_b_plate", 1):
             u_b = pyro.sample("u_b", dist.Gamma(alpha_b_param, beta_b_param))
 
         with pyro.plate("mu_theta_plate", self.dims):
