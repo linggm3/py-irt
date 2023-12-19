@@ -74,7 +74,7 @@ class Multidim2PL(IrtModel):
                 "mu_b",
                 dist.Normal(
                     torch.tensor(0.0, device=self.device),
-                    torch.tensor(1.0e6, device=self.device),
+                    torch.tensor(1.0e1, device=self.device),
                 ),
             )
 
@@ -92,7 +92,7 @@ class Multidim2PL(IrtModel):
                 "mu_theta",
                 dist.Normal(
                     torch.tensor(0.0, device=self.device),
-                    torch.tensor(1.0e6, device=self.device),
+                    torch.tensor(1.0e1, device=self.device),
                 ),
             )
 
@@ -110,7 +110,7 @@ class Multidim2PL(IrtModel):
                 "mu_gamma",
                 dist.Normal(
                     torch.tensor(0.0, device=self.device),
-                    torch.tensor(1.0e6, device=self.device),
+                    torch.tensor(1.0e1, device=self.device),
                 ),
             )
 
@@ -145,21 +145,21 @@ class Multidim2PL(IrtModel):
         loc_mu_b_param = pyro.param("loc_mu_b", torch.zeros(1, device=self.device))
         scale_mu_b_param = pyro.param(
             "scale_mu_b",
-            1e2 * torch.ones(1, device=self.device),
+            torch.ones(1, device=self.device), #1e2 * 
             constraint=constraints.positive,
         )
 
         loc_mu_theta_param = pyro.param("loc_mu_theta", torch.zeros(self.dims, device=self.device))
         scale_mu_theta_param = pyro.param(
             "scale_mu_theta",
-            1e2 * torch.ones(self.dims, device=self.device),
+            torch.ones(self.dims, device=self.device), #1e2 * 
             constraint=constraints.positive,
         )
 
         loc_mu_gamma_param = pyro.param("loc_mu_gamma", torch.zeros(self.dims, device=self.device))
         scale_mu_gamma_param = pyro.param(
             "scale_mu_gamma",
-            1.0e2 * torch.ones(self.dims, device=self.device),
+            torch.ones(self.dims, device=self.device), #1e2 * 
             constraint=constraints.positive,
         )
 
@@ -256,3 +256,4 @@ class Multidim2PL(IrtModel):
         with pyro.plate("gammas", self.num_items, dim=-2, device=self.device):
             with pyro.plate("gamma_dims", self.dims, dim=-1, device=self.device):
                 gamma = pyro.sample("gamma", dist.Normal(m_gamma_param, s_gamma_param))
+
