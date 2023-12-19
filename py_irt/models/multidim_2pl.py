@@ -136,7 +136,7 @@ class Multidim2PL(IrtModel):
                 disc = pyro.sample("gamma", dist.Normal(mu_gamma, 1.0 / u_gamma))
 
         with pyro.plate("observe_data", obs.size(0)):
-            multidim_logits = disc[items] * (ability[subjects] - diff[items])
+            multidim_logits = disc[items] * ability[subjects] - diff[items]
             logits = multidim_logits.sum(axis=-1)
 
             pyro.sample("obs", dist.Bernoulli(logits=logits), obs=obs)
