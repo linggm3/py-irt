@@ -128,7 +128,7 @@ class Multidim2PL(IrtModel):
                 ability = pyro.sample("theta", dist.Normal(mu_theta, 1.0 / u_theta))
 
         with pyro.plate("bs", self.num_items, dim=-2, device=self.device):
-            with pyro.plate("bs_dims", self.dims, dim=-1):
+            with pyro.plate("bs_dims", 1, dim=-1):
                 diff = pyro.sample("b", dist.Normal(mu_b, 1.0 / u_b))
 
         with pyro.plate("gammas", self.num_items, dim=-2, device=self.device):
@@ -250,10 +250,11 @@ class Multidim2PL(IrtModel):
                 theta = pyro.sample("theta", dist.Normal(m_theta_param, s_theta_param))
 
         with pyro.plate("bs", self.num_items, dim=-2, device=self.device):
-            with pyro.plate("bs_dims", self.dims, dim=-1):
+            with pyro.plate("bs_dims", 1, dim=-1):
                 b = pyro.sample("b", dist.Normal(m_b_param, s_b_param))
 
         with pyro.plate("gammas", self.num_items, dim=-2, device=self.device):
             with pyro.plate("gamma_dims", self.dims, dim=-1, device=self.device):
                 gamma = pyro.sample("gamma", dist.Normal(m_gamma_param, s_gamma_param))
+
 
