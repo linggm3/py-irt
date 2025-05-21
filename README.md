@@ -1,9 +1,6 @@
-[![Build Status](https://travis-ci.com/nd-ball/py-irt.svg?branch=master)](https://travis-ci.com/nd-ball/py-irt)
-[![codecov.io](https://codecov.io/gh/nd-ball/py-irt/coverage.svg?branch=master)](https://codecov.io/gh/nd-ball/py-irt)
+# py-irt package
 
-# This package
-
-This code is an adaptation of the code in https://github.com/nd-ball/py-irt. We only adapted the file `py_irt/models/multidim_2pl.py`.
+This code is an adaptation of the code in https://github.com/nd-ball/py-irt. 
 
 ## Installation
 
