@@ -161,11 +161,16 @@ class IrtModelTrainer:
         subjects = torch.tensor(self._dataset.observation_subjects, dtype=torch.long, device=device)
         items = torch.tensor(self._dataset.observation_items, dtype=torch.long, device=device)
         responses = torch.tensor(self._dataset.observations, dtype=torch.float, device=device)
+        print(subjects, items)
+        print(subjects.shape, items.shape)
         print(subjects.size(), items.size())
         # Don't take a step here, just make sure params are initialized
         # so that initializers can modify the params
         _ = self._pyro_model(subjects, items, responses)
         _ = self._pyro_guide(subjects, items, responses)
+        print(len(self.export(items)['disc']), len(self.export(items)['diff']))
+        print(self.export(items)['disc'][0], self.export(items)['diff'][0])
+
         for init in self._initializers:
             init.initialize()
 

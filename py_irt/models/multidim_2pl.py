@@ -21,9 +21,11 @@
 # SOFTWARE.
 
 
+import os
 import pyro
 import pyro.distributions as dist
 import torch
+import pickle
 import torch.distributions.constraints as constraints
 from rich.console import Console
 
@@ -207,15 +209,23 @@ class Multidim2PL(IrtModel):
 
         m_b_param = pyro.param(
             "loc_diff", torch.zeros([self.num_items, 1], device=self.device)
+            #"loc_diff", torch.randn([self.num_items, 1], device=self.device) #* 2 - 1
         )
         s_b_param = pyro.param(
             "scale_diff",
             torch.ones([self.num_items, 1], device=self.device),
             constraint=constraints.positive,
         )
-
+        #######################################################
+        current_path = os.getcwd()
+        full_path = os.path.join(current_path, "data\\longbench_embeddings_pca.pkl")
+        with open(full_path, 'rb') as f:
+                tmp = pickle.load(f)
         m_gamma_param = pyro.param(
-            "loc_disc", torch.zeros([self.num_items, self.dims], device=self.device)
+            #######################################################
+            #"loc_disc", torch.zeros([self.num_items, self.dims], device=self.device)
+            
+            "loc_disc", torch.from_numpy(tmp).to(self.device)
         )
         s_gamma_param = pyro.param(
             "scale_disc",
