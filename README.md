@@ -12,7 +12,7 @@ py-irt is now available on PyPi!
 Install [Poetry](https://python-poetry.org/docs/#installation)
 
 ```shell
-git clone https://github.com/felipemaiapolo/py-irt.git
+git clone https://github.com/linggm3/py-irt.git
 cd py-irt
 poetry install
 ```
